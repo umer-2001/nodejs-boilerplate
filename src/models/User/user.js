@@ -27,15 +27,10 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin", "vendor"],
+    enum: ["user", "admin"],
     default: "user",
   },
 
-  provider: {
-    type: String,
-    enum: ["google", "apple", "local"],
-    default: "local",
-  },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -63,21 +58,6 @@ const userSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  // vendor stripe
-  // TODO encryption
-  stripeAccountId: {
-    type: String,
-  },
-
-  visitedProducts: [
-    {
-      product: { type: Schema.Types.ObjectId, ref: "Product" },
-      timestamp: { type: Date, default: Date.now },
-    },
-  ],
-
-  // new field added
-  profile: { type: Schema.Types.ObjectId, ref: "Profile" },
 });
 
 //hash password before saving
