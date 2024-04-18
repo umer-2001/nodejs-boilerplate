@@ -1,5 +1,5 @@
 {
-  "name": "be-boilerplate",
+  "name": "nodejs-boilerplate",
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ah2k-dev/userAuth-with-email-verification.git"
+    "url": "git+https://github.com/umermemon4648/nodejs-boilerplate.git"
   },
-  "author": "ah2k-dev",
+  "author": "umermemon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ah2k-dev/userAuth-with-email-verification/issues"
+    "url": "https://github.com/umermemon4648/nodejs-boilerplate/issues"
   },
-  "homepage": "https://github.com/ah2k-dev/userAuth-with-email-verification#readme",
+  "homepage": "https://github.com/umermemon4648/nodejs-boilerplate#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
