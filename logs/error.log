@@ -1,0 +1,45 @@
+{"date":"2024-08-23T10:00:33.567Z","level":"error","message":"\"name\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:00:58.841Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:01:14.868Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:01:17.339Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:09.176Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:10.856Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:12.012Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:12.873Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:13.728Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:14.641Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:15.589Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:05:16.392Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:23.459Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:26.558Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:36.592Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:40.532Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:42.988Z","level":"error","message":"\"email\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:06:53.459Z","level":"error","message":"Please enter a valid email address.","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:11.795Z","level":"error","message":"\"email\" must be a valid email","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:13.937Z","level":"error","message":"\"email\" must be a valid email","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:15.246Z","level":"error","message":"\"email\" must be a valid email","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:16.335Z","level":"error","message":"\"email\" must be a valid email","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:26.666Z","level":"error","message":"\"email\" must be a valid email","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:38.614Z","level":"error","message":"\"password\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:07:44.006Z","level":"error","message":"\"password\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:08:45.987Z","level":"error","message":"\"password\" with value \"umer\" fails to match the required pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).{8,}$/","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:09:26.966Z","level":"error","message":"Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character, and be at least 8 characters long.","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:09:33.182Z","level":"error","message":"Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character, and be at least 8 characters long.","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:09:36.404Z","level":"error","message":"Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character, and be at least 8 characters long.","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:09:54.536Z","level":"error","message":"Operation `users.findOne()` buffering timed out after 10000ms","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:10:39.158Z","level":"error","message":"Success","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:15:59.962Z","level":"error","message":"\"name\" is not allowed","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:16:44.331Z","level":"error","message":"Success","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:16:46.508Z","level":"error","message":"Success","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:08.938Z","level":"error","message":"\"query\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:11.071Z","level":"error","message":"\"query\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:12.498Z","level":"error","message":"\"query\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:49.044Z","level":"error","message":"\"query.action\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:51.159Z","level":"error","message":"\"query.action\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:52.442Z","level":"error","message":"\"query.action\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:18:53.526Z","level":"error","message":"\"query.action\" is required","method":"POST","service":"user-service","url":"/register"}
+{"date":"2024-08-23T10:19:01.952Z","level":"error","message":"\"query.action\" must be one of [accept, reject]","method":"POST","service":"user-service","url":"/register?action=beta"}
+{"date":"2024-08-23T10:19:04.816Z","level":"error","message":"\"query.action\" must be one of [accept, reject]","method":"POST","service":"user-service","url":"/register?action=beta"}
+{"date":"2024-08-23T10:19:09.498Z","level":"error","message":"\"query.action\" must be one of [accept, reject]","method":"POST","service":"user-service","url":"/register?action=accepted"}
+{"date":"2024-08-23T10:19:12.293Z","level":"error","message":"Success","method":"POST","service":"user-service","url":"/register?action=accept"}

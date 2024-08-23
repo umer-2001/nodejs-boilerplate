@@ -3,26 +3,18 @@ const sendMail = require("../utils/sendMail");
 const SuccessHandler = require("../utils/SuccessHandler");
 const ErrorHandler = require("../utils/ErrorHandler");
 const validator = require("validator");
+const { createUserValidation } = require("../validations/user");
+const { ValidationError } = require("joi");
+const { query } = require("express");
+
 //register
 const register = async (req, res) => {
   // #swagger.tags = ['auth']
   try {
     const { name, email, password, role } = req.body;
-    if (!validator.isEmail(email)) {
-      return ErrorHandler("Invalid email format", 400, req, res);
-    }
-    if (
-      !password.match(
-        /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=])(?=.{8,}).*$/
-      )
-    ) {
-      return ErrorHandler(
-        "Password must contain atleast one uppercase letter, one special character and one number",
-        400,
-        req,
-        res
-      );
-    }
+    await createUserValidation.validateAsync({
+      body: req.body,
+    });
     const user = await User.findOne({ email });
     if (user) {
       return ErrorHandler("User already exists", 400, req, res);
@@ -36,6 +28,9 @@ const register = async (req, res) => {
     newUser.save();
     return SuccessHandler("User created successfully", 200, res);
   } catch (error) {
+    if (error instanceof ValidationError) {
+      return ErrorHandler(error.message, 400, req, res);
+    }
     return ErrorHandler(error.message, 500, req, res);
   }
 };

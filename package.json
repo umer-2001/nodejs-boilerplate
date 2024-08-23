@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/index.js",
     "start": "node ./src/index.js",
-    "swagger": "node ./swagger.js"
+    "swagger": "node ./swagger.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
     "nodemailer": "^6.7.8",
@@ -36,9 +38,13 @@
     "swagger-autogen": "^2.23.1",
     "swagger-ui-express": "^4.6.2",
     "validator": "^13.7.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
     "nodemon": "^2.0.19"
   }
 }
