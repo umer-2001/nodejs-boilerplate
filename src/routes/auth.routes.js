@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const auth = require("../controllers/authController");
-const isAuthenticated = require("../middleware/auth");
+import express, { Router } from "express";
+import * as auth from "../controllers/auth.controller";
+import { isAuthenticated } from "../middleware/auth.middleware";
 
+const router = express.Router();
 //get
 router.route("/logout").get(auth.logout);
 //post

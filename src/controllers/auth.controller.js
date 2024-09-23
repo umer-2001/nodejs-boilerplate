@@ -1,11 +1,33 @@
-const User = require("../models/User/user");
-const sendMail = require("../utils/sendMail");
-const SuccessHandler = require("../utils/SuccessHandler");
-const ErrorHandler = require("../utils/ErrorHandler");
-const validator = require("validator");
-const { createUserValidation } = require("../validations/user");
-const { ValidationError } = require("joi");
-const { query } = require("express");
+import User from "../models/User/user.model";
+import sendMail from "../utils/sendMail";
+import SuccessHandler from "../utils/SuccessHandler";
+import ErrorHandler from "../utils/ErrorHandler";
+import validator from "validator";
+import { createUserValidation } from "../validations/user";
+import { ValidationError } from "joi";
+
+const options = {
+  httpOnly: true,
+  secure: true,
+};
+
+const generateAccessAndRefereshTokens = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    throw new ApiError(
+      500,
+      "Something went wrong while generating referesh and access token"
+    );
+  }
+};
 
 //register
 const register = async (req, res) => {
@@ -104,7 +126,7 @@ const login = async (req, res) => {
   // #swagger.tags = ['auth']
 
   try {
-    const { email, password } = req.body;
+    const { email, password: inputPassword } = req.body;
     if (!validator.isEmail(email)) {
       return ErrorHandler("Invalid email format", 400, req, res);
     }
@@ -112,16 +134,28 @@ const login = async (req, res) => {
     if (!user) {
       return ErrorHandler("User does not exist", 400, req, res);
     }
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await user.comparePassword(inputPassword);
     if (!isMatch) {
       return ErrorHandler("Invalid credentials", 400, req, res);
     }
     if (!user.emailVerified) {
       return ErrorHandler("Email not verified", 400, req, res);
     }
-    jwtToken = user.getJWTToken();
+    const { accessToken, refreshToken: newRefreshToken } =
+      await generateAccessAndRefereshTokens(user._id);
+
+    const { refreshToken, password, ...updatedUser } = user.toObject();
+
+    res.cookie("refreshToken", newRefreshToken, options);
+    res.cookie("accessToken", accessToken, options);
+
     return SuccessHandler(
-      { message: "Logged in successfully", jwtToken, user },
+      {
+        message: "Logged in successfully",
+        accessToken,
+        refreshToken: newRefreshToken,
+        updatedUser,
+      },
       200,
       res
     );
@@ -135,7 +169,21 @@ const logout = async (req, res) => {
   // #swagger.tags = ['auth']
 
   try {
-    req.user = null;
+    // req.user = null;
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $unset: {
+          refreshToken: 1,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    res.clearCookie("accessToken", options);
+    res.clearCookie("refreshToken", options);
     return SuccessHandler("Logged out successfully", 200, res);
   } catch (error) {
     return ErrorHandler(error.message, 500, req, res);
@@ -276,7 +324,55 @@ const socialAuth = async (req, res) => {
   }
 };
 
-module.exports = {
+const refreshAccessToken = asyncHandler(async (req, res) => {
+  const incomingRefreshToken =
+    req.cookies.refreshToken || req.body.refreshToken;
+
+  if (!incomingRefreshToken) {
+    throw new ApiError(401, "unauthorized request");
+  }
+
+  try {
+    const decodedToken = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const user = await User.findById(decodedToken?._id);
+
+    if (!user) {
+      throw new ApiError(401, "Invalid refresh token");
+    }
+
+    if (incomingRefreshToken !== user?.refreshToken) {
+      throw new ApiError(401, "Refresh token is expired or used");
+    }
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    const { accessToken, newRefreshToken } =
+      await generateAccessAndRefereshTokens(user._id);
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
+      .json(
+        new ApiResponse(
+          200,
+          { accessToken, refreshToken: newRefreshToken },
+          "Access token refreshed"
+        )
+      );
+  } catch (error) {
+    throw new ApiError(401, error?.message || "Invalid refresh token");
+  }
+});
+
+export {
   register,
   requestEmailToken,
   verifyEmail,

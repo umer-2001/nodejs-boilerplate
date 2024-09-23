@@ -1,24 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const ApiError = require("./utils/ApiError");
+import express from "express";
+import cors from "cors";
+import bodyParser from "bodyParser";
+import mongoSanitize from "mongoSanitize";
+import swaggerUi from "swaggerUi";
+import router from "./router";
+import ApiError from "./utils/ApiError";
+import loggerMiddleware from "./middleware/loggerMiddleware";
+import swaggerFile from "../swagger_output.json"; // Generated Swagger file
+import handleInvalidRoute from "./middleware/invalidRoute";
+import cookieParser from "cookie-parser";
+import xss from "xss-clean";
+
 const app = express();
-const router = require("./router");
-const loggerMiddleware = require("./middleware/loggerMiddleware");
-const swaggerUi = require("swagger-ui-express");
-const mongoSanitize = require("express-mongo-sanitize");
-const swaggerFile = require("../swagger_output.json"); // Generated Swagger file
-const handleInvalidRoute = require("./middleware/invalidRoute");
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
 app.options("*", cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(loggerMiddleware);
 
 // Apply mongoSanitize middleware
+app.use(xss());
 app.use(mongoSanitize());
 app.use(
   mongoSanitize({
@@ -27,7 +32,7 @@ app.use(
 );
 
 // router index
-app.use("/", router);
+app.use("/api", router);
 
 // api doc
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -38,8 +43,8 @@ app.get("/", (req, res) => {
 
 app.use(handleInvalidRoute);
 // send back a 404 error for any unknown api request
-app.use((req, res, next) => {
+app.use((_, _, next) => {
   next(new ApiError(404, "Not found"));
 });
 
-module.exports = app;
+export default app;

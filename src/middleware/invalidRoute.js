@@ -1,4 +1,4 @@
-const ErrorHandler = require("../utils/ErrorHandler");
+import ErrorHandler from "../utils/ErrorHandler";
 const handleInvalidRoute = (req, res) => {
   return ErrorHandler(
     `The Requested Route ${req.hostname + req.originalUrl} Not Found`,
@@ -7,4 +7,4 @@ const handleInvalidRoute = (req, res) => {
     res
   );
 };
-module.exports = handleInvalidRoute;
+export default handleInvalidRoute;
