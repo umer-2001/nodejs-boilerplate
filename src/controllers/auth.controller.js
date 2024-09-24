@@ -5,6 +5,8 @@ import ErrorHandler from "../utils/ErrorHandler";
 import validator from "validator";
 import { createUserValidation } from "../validations/user";
 import { ValidationError } from "joi";
+import dotenv from "dotenv";
+dotenv.config({ path: "../config/config.env" });
 
 const options = {
   httpOnly: true,
@@ -324,15 +326,17 @@ const socialAuth = async (req, res) => {
   }
 };
 
-const refreshAccessToken = asyncHandler(async (req, res) => {
-  const incomingRefreshToken =
-    req.cookies.refreshToken || req.body.refreshToken;
-
-  if (!incomingRefreshToken) {
-    throw new ApiError(401, "unauthorized request");
-  }
+const refreshAccessToken = async (req, res) => {
+  // #swagger.tags = ['auth']
 
   try {
+    const incomingRefreshToken =
+      req.cookies.refreshToken || req.body.refreshToken;
+
+    if (!incomingRefreshToken) {
+      return ErrorHandler("unauthorized request", 401, req, res);
+    }
+
     const decodedToken = jwt.verify(
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
@@ -341,36 +345,32 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const user = await User.findById(decodedToken?._id);
 
     if (!user) {
-      throw new ApiError(401, "Invalid refresh token");
+      return ErrorHandler("Invalid refresh token", 401, req, res);
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
-      throw new ApiError(401, "Refresh token is expired or used");
+      return ErrorHandler("Refresh token is expired or used", 401, req, res);
     }
-
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
 
     const { accessToken, newRefreshToken } =
       await generateAccessAndRefereshTokens(user._id);
 
-    return res
-      .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", newRefreshToken, options)
-      .json(
-        new ApiResponse(
-          200,
-          { accessToken, refreshToken: newRefreshToken },
-          "Access token refreshed"
-        )
-      );
+    res.cookie("accessToken", accessToken, options);
+    res.cookie("refreshToken", accessToken, newRefreshToken);
+
+    return SuccessHandler(
+      {
+        messsage: "Access token refreshed",
+        refreshToken: newRefreshToken,
+        accessToken: accessToken,
+      },
+      200,
+      res
+    );
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid refresh token");
+    return ErrorHandler(error.message, 500, req, res);
   }
-});
+};
 
 export {
   register,
@@ -382,4 +382,5 @@ export {
   resetPassword,
   updatePassword,
   socialAuth,
+  refreshAccessToken,
 };
